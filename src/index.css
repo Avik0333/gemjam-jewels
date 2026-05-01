@@ -277,3 +277,57 @@ body {
     transform: scale(1);
   }
 }
+
+
+/* Page entrance */
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: pageFadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Staggered card reveal */
+@keyframes cardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.card-reveal {
+  animation: cardReveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+}
+
+/* Image hover zoom - smoother */
+.img-hover {
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.img-hover:hover {
+  transform: scale(1.06);
+}
+
+/* Fade in up - existing but improved */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

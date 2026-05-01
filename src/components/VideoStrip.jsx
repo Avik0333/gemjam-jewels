@@ -30,6 +30,7 @@ export default function VideoStrip() {
         muted
         loop
         playsInline
+        preload="auto"
         className="w-full h-full object-cover scale-105 animate-[slowZoom_12s_linear_infinite]"
       />
 

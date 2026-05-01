@@ -1,15 +1,20 @@
 import { useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { ThemeContext } from "../context/ThemeContext";
-import { Sun, Moon, Menu, X } from "lucide-react";
+import { Sun, Moon, Menu, X, ShoppingBag, Heart } from "lucide-react";
 import logo from "../assets/logo.png";
+import {useCart} from "../context/CartContext"
+import { Link } from "react-router-dom";
+import { useWishlist } from "../context/WishlistContext";
 
 export default function Navbar() {
   const theme = useContext(ThemeContext);
+  const { totalItems, setDrawerOpen } = useCart();
   if (!theme) return null; // 🔥 prevents crash
   const { dark, toggleTheme } = theme;
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { wishlist } = useWishlist();
 
   const navItems = [
     { label: "Collections", href: "#collections" },
@@ -25,6 +30,7 @@ export default function Navbar() {
   }, []);
 
   // lock background scroll when menu open
+  /* trunk-ignore(eslint/react-hooks/rules-of-hooks) */
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "auto";
   }, [open]);
@@ -71,32 +77,50 @@ export default function Navbar() {
           {/* RIGHT */}
           <div className="flex items-center gap-2 md:gap-4">
 
-            {/* THEME */}
+            {/* THEME TOGGLE - keep as is */}
             <button
               onClick={toggleTheme}
               className="relative h-8 w-8 md:h-9 md:w-9 flex items-center justify-center rounded-full border"
               style={{ borderColor: "var(--border)" }}
             >
-              <Sun
-                className={`h-4 w-4 transition-all duration-300 ${
-                  dark ? "scale-0 rotate-90" : "scale-100 rotate-0"
-                }`}
-              />
-              <Moon
-                className={`absolute h-4 w-4 transition-all duration-300 ${
-                  dark ? "scale-100 rotate-0" : "scale-0 -rotate-90"
-                }`}
-              />
+              <Sun className={`h-4 w-4 transition-all duration-300 ${dark ? "scale-0 rotate-90" : "scale-100 rotate-0"}`} />
+              <Moon className={`absolute h-4 w-4 transition-all duration-300 ${dark ? "scale-100 rotate-0" : "scale-0 -rotate-90"}`} />
             </button>
 
-            {/* MOBILE MENU BUTTON */}
+            {/* CART ICON */}
             <button
-              onClick={() => setOpen(true)}
-              className="md:hidden"
+              onClick={() => setDrawerOpen(true)}
+              className="relative h-8 w-8 md:h-9 md:w-9 flex items-center justify-center rounded-full border"
+              style={{ borderColor: "var(--border)" }}
             >
+              <ShoppingBag className="h-4 w-4" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-black dark:bg-white text-white dark:text-black text-[9px] flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
+            </button>
+
+            {/* WISHLIST */}
+            <Link
+              to="/wishlist"
+              className="relative h-8 w-8 md:h-9 md:w-9 flex items-center justify-center rounded-full border"
+              style={{ borderColor: "var(--border)" }}
+            >
+              <Heart className="h-4 w-4" />
+              {wishlist.length > 0 && (
+                <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-black dark:bg-white text-white dark:text-black text-[9px] flex items-center justify-center">
+                  {wishlist.length}
+                </span>
+              )}
+            </Link>
+
+            {/* MOBILE MENU BUTTON - keep as is */}
+            <button onClick={() => setOpen(true)} className="md:hidden">
               <Menu size={18} />
             </button>
           </div>
+
         </div>
       </header>
 

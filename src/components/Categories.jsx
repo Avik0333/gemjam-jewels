@@ -54,7 +54,7 @@ export default function Categories() {
               {items[0].title}
             </h3>
 
-            <Link to={`/category/${items.slug}`}>
+            <Link to={`/category/${items[0].slug}`}>
               <button className="text-xs tracking-[0.3em] uppercase border px-4 py-2 hover:bg-black hover:text-white transition">
                 Shop Now →
               </button>
